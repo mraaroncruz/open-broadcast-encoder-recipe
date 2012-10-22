@@ -31,6 +31,7 @@ name  = 'fdk-aac'
 owner = 'kierank'
 
 git "Git #{name}" do
+  not_if file_exists? "lib", "libfdk-aac.a"
   repository "git://github.com/#{owner}/#{name}.git"
   reference 'master'
   destination "#{node[:obe][:git][:directory]}/#{name}"
@@ -38,6 +39,7 @@ git "Git #{name}" do
 end
 
 bash "Install #{name}" do
+  not_if file_exists? "lib", "libfdk-aac.a"
   cmd = <<-COMMAND
     cd #{node[:obe][:git][:directory]}/#{name}
     make distclean
@@ -54,6 +56,7 @@ name  = 'libav-obe-dev2'
 owner = 'kierank'
 
 git "Git #{name}" do
+  not_if file_exists? "lib", "libavcodec.a"
   repository "git://github.com/#{owner}/#{name}.git"
   reference 'master'
   destination "#{node[:obe][:git][:directory]}/#{name}"
@@ -61,6 +64,7 @@ git "Git #{name}" do
 end
 
 bash "Install #{name}" do
+  not_if file_exists? "lib", "libavcodec.a"
   cmd = <<-COMMAND
     cd #{node[:obe][:git][:directory]}/#{name}
     make distclean
@@ -77,6 +81,7 @@ name  = 'x264-obe'
 owner = 'kierank'
 
 git "Git #{name}" do
+  not_if file_exists? "lib", "libx264.a"
   repository "git://github.com/#{owner}/#{name}.git"
   reference 'master'
   destination "#{node[:obe][:git][:directory]}/#{name}"
@@ -84,6 +89,7 @@ git "Git #{name}" do
 end
 
 bash "Install #{name}" do
+  not_if file_exists? "lib", "libx264.a"
   cmd = <<-COMMAND
     cd #{node[:obe][:git][:directory]}/#{name}
     make distclean
@@ -100,6 +106,7 @@ name  = 'libmpegts'
 owner = 'kierank'
 
 git "Git #{name}" do
+  not_if file_exists? "lib", "libmpegts.a"
   repository "git://github.com/#{owner}/#{name}.git"
   reference 'master'
   destination "#{node[:obe][:git][:directory]}/#{name}"
@@ -107,6 +114,7 @@ git "Git #{name}" do
 end
 
 bash "Install #{name}" do
+  not_if file_exists? "lib", "libmpegts.a"
   cmd = <<-COMMAND
     cd #{node[:obe][:git][:directory]}/#{name}
     make distclean
@@ -123,6 +131,7 @@ name  = 'broadcastencoder'
 owner = 'kierank'
 
 git "Git #{name}" do
+  not_if file_exists? "lib", "libobe.a"
   repository "git://github.com/#{owner}/#{name}.git"
   reference node[:obe][:git][:branch]
   destination "#{node[:obe][:git][:directory]}/#{name}"
@@ -130,6 +139,7 @@ git "Git #{name}" do
 end
 
 bash "Install #{name}" do
+  not_if file_exists? "lib", "libobe.a"
   cmd = <<-COMMAND
     cd #{node[:obe][:git][:directory]}/#{name}
     make distclean
@@ -139,4 +149,8 @@ bash "Install #{name}" do
   COMMAND
   Chef::Log.info("COMMAND: #{cmd}")
   code cmd
+end
+
+def file_exists? dir, file
+  "test -f #{node[:obe][:prefix]}/#{dir}/#{file}"
 end
