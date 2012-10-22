@@ -1,2 +1,2 @@
-
-default[:obe][:git_directory] = "/usr/local/src"
+default[:obe][:git][:directory] = "/usr/local/src"
+default[:obe][:git][:branch] = "master"

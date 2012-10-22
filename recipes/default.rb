@@ -15,84 +15,88 @@
 end
 
 ### FDK-AAC
-#name  = 'fdk-aac'
-#owner = 'kierank'
-#
-#git "Git #{name}" do
-  #repository "git://github.com/#{owner}/#{name}.git"
-  #reference 'master'
-  #destination "#{node[:obe][:git_directory]}/#{name}"
-  #action :sync
-#end
-#
-#bash "Install #{name}" do
-  #code <<-COMMAND
-    #cd #{node[:obe][:git_directory]}/#{name}
-    #autoreconf -i && ./configure --prefix=/usr
-    #make -j5
-    #make install
-  #COMMAND
-#end
-#
-## LIBAV
-#name  = 'libav-obe-dev2'
-#owner = 'kierank'
-#
-#git "Git #{name}" do
-  #repository "git://github.com/#{owner}/#{name}.git"
-  #reference 'master'
-  #destination "#{node[:obe][:git_directory]}/#{name}"
-  #action :sync
-#end
-#
-#bash "Install #{name}" do
-  #code <<-COMMAND
-    #cd #{node[:obe][:git_directory]}/#{name}
-    #./configure --prefix=/usr --enable-gpl --enable-nonfree --enable-libfdk-aac --disable-swscale-alpha --disable-avdevice
-    #make -j5
-    #make install
-  #COMMAND
-#end
+name  = 'fdk-aac'
+owner = 'kierank'
 
-### LIBX264
-#name  = 'x264-obe'
-#owner = 'kierank'
+git "Git #{name}" do
+  repository "git://github.com/#{owner}/#{name}.git"
+  reference 'master'
+  destination "#{node[:obe][:git][:directory]}/#{name}"
+  action :export
+end
+
+bash "Install #{name}" do
+  code <<-COMMAND
+    cd #{node[:obe][:git][:directory]}/#{name}
+    make distclean
+    autoreconf -i && ./configure --prefix=/usr/local
+    make -j5
+    make install
+  COMMAND
+end
+
+# LIBAV
+name  = 'libav-obe-dev2'
+owner = 'kierank'
+
+git "Git #{name}" do
+  repository "git://github.com/#{owner}/#{name}.git"
+  reference 'master'
+  destination "#{node[:obe][:git][:directory]}/#{name}"
+  action :export
+end
+
+bash "Install #{name}" do
+  code <<-COMMAND
+    cd #{node[:obe][:git][:directory]}/#{name}
+    make distclean
+    ./configure --prefix=/usr/local --enable-gpl --enable-nonfree --enable-libfdk-aac --disable-swscale-alpha --disable-avdevice
+    make -j5
+    make install
+  COMMAND
+end
 #
-#git "Git #{name}" do
-  #repository "git://github.com/#{owner}/#{name}.git"
-  #reference 'master'
-  #destination "#{node[:obe][:git_directory]}/#{name}"
-  #action :sync
-#end
-#
-#bash "Install #{name}" do
-  #code <<-COMMAND
-    #cd #{node[:obe][:git_directory]}/#{name}
-    #./configure --prefix=/usr
-    #make -j5
-    #make install-lib-static
-  #COMMAND
-#end
-#
-## LIBMPEGTS
-#name  = 'libmpegts'
-#owner = 'kierank'
-#
-#git "Git #{name}" do
-  #repository "git://github.com/#{owner}/#{name}.git"
-  #reference 'master'
-  #destination "#{node[:obe][:git_directory]}/#{name}"
-  #action :sync
-#end
-#
-#bash "Install #{name}" do
-  #code <<-COMMAND
-    #cd #{node[:obe][:git_directory]}/#{name}
-    #./configure --prefix=/usr
-    #make -j5
-    #make install
-  #COMMAND
-#end
+## LIBX264
+name  = 'x264-obe'
+owner = 'kierank'
+
+git "Git #{name}" do
+  repository "git://github.com/#{owner}/#{name}.git"
+  reference 'master'
+  destination "#{node[:obe][:git][:directory]}/#{name}"
+  action :export
+end
+
+bash "Install #{name}" do
+  code <<-COMMAND
+    cd #{node[:obe][:git][:directory]}/#{name}
+    make distclean
+    ./configure --prefix=/usr/local
+    make -j5
+    make install-lib-static
+  COMMAND
+end
+
+# LIBMPEGTS
+name  = 'libmpegts'
+owner = 'kierank'
+
+git "Git #{name}" do
+  repository "git://github.com/#{owner}/#{name}.git"
+  reference 'master'
+  destination "#{node[:obe][:git][:directory]}/#{name}"
+  action :export
+end
+
+bash "Install #{name}" do
+  code <<-COMMAND
+    cd #{node[:obe][:git][:directory]}/#{name}
+    make distclean
+    ./configure --prefix=/usr/local
+    make -j5
+    make install
+  COMMAND
+end
 
 # Open Broadcast Encoder
 name  = 'broadcastencoder'
@@ -100,15 +104,16 @@ owner = 'kierank'
 
 git "Git #{name}" do
   repository "git://github.com/#{owner}/#{name}.git"
-  reference 'master'
-  destination "#{node[:obe][:git_directory]}/#{name}"
-  action :sync
+  reference node[:obe][:git][:branch]
+  destination "#{node[:obe][:git][:directory]}/#{name}"
+  action :export
 end
 
 bash "Install #{name}" do
   code <<-COMMAND
-    cd #{node[:obe][:git_directory]}/#{name}
-    ./configure --prefix=/usr
+    cd #{node[:obe][:git][:directory]}/#{name}
+    make distclean
+    ./configure --prefix=/usr/local
     make -j5
     make install
   COMMAND
