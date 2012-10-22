@@ -6,6 +6,18 @@
 #
 # All rights reserved - Do Not Redistribute
 #
+template "#{node[:obe][:cli][:init_path]}/obe" do
+  source "obectl"
+  owner "root"
+  group "root"
+  mode "0755"
+  notifies :restart, "service[obe]"
+end
+
+service "obe" do
+  supports :status => true, :restart => true
+  action [ :enable, :start ]
+end
 
 # Dependencies
 %w(libtwolame-dev libzvbi0 libzvbi-dev libzvbi-common).each do |lib|

@@ -6,6 +6,7 @@ default[:obe][:git][:directory] = "/usr/local/src"
 default[:obe][:git][:branch] = "master"
 
 # Client
+default[:obe][:cli][:init_path] = "/etc/init.d"
 default[:obe][:cli][:input] = "decklink"
 
 default[:obe][:cli][:options] = {
