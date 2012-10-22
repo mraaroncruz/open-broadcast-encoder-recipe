@@ -1,0 +1,45 @@
+#!/bin/bash
+
+NAME=obe
+CMD=<%= node[:obe][:prefix] %>/bin/obecli
+AS_USER=<%= @user || "root" %>
+SCREEN_CMD="sudo -u $AS_USER screen -p 0 -S $NAME -X stuff"
+set -u
+
+case "$1" in
+start)
+  sudo -u $AS_USER screen -d -m -S $NAME $BIN
+  sleep 2
+  $SCREEN_CMD $'set input <%= node[:obe][:cli][:input] %>\012'
+  <% node[:obe][:cli][:options].each do |k, v| -%>
+    $SCREEN_CMD $'set input opts <%= k %>=<%= v %>\012'
+  <% end %>
+  $SCREEN_CMD $'probe input\012'
+  sleep 5
+  <% node[:obe][:cli][:inputs].each do |n, type| %>
+    $SCREEN_CMD $'add stream <%= n %>:type=<%= type %>\012'
+  <% end %>
+  sleep 2
+  <% node[:obe][:cli][:stream_options].each_with_index do |i, options| %>
+    $SCREEN_CMD $'set stream opts <%= i %>:<%= options.map { |k,v| "#{k}=#{v}" }.join(",") %>\012'
+    sleep 1
+  <% end %>
+  sleep 1
+  $SCREEN_CMD $'set muxer opts <%= node[:obe][:cli][:muxer_options].map { |k,v| "#{k}=#{v}" }.join(",") %>\012'
+  $SCREEN_CMD $'set output <%= node[:obe][:cli][:output] %>\012'
+  $SCREEN_CMD $'set output opts <%= node[:obe][:cli][:output_options].map { |k,v| "#{k}=#{v}" }.join(",") %>\012'
+  $SCREEN_CMD $'start\012'
+  ;;
+
+stop)
+  $SCREEN_CMD $'exit'
+  ;;
+restart)
+  stop
+  sleep 3
+  start
+*)
+  echo >&2 "Usage: $0 <start|stop|restart>"
+  exit 1
+  ;;
+esac
