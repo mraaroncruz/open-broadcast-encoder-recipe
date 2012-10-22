@@ -47,7 +47,9 @@ bash "Install #{name}" do
     make -j5
     make install
   COMMAND
-  Chef::Log.info("COMMAND: #{cmd}")
+  block do
+    Chef::Log.info("COMMAND: #{cmd}")
+  end
   code cmd
 end
 
@@ -72,7 +74,9 @@ bash "Install #{name}" do
     make -j5
     make install
   COMMAND
-  Chef::Log.info("COMMAND: #{cmd}")
+  block do
+    Chef::Log.info("COMMAND: #{cmd}")
+  end
   code cmd
 end
 #
@@ -97,7 +101,9 @@ bash "Install #{name}" do
     make -j5
     make install-lib-static
   COMMAND
-  Chef::Log.info("COMMAND: #{cmd}")
+  block do
+    Chef::Log.info("COMMAND: #{cmd}")
+  end
   code cmd
 end
 
@@ -122,7 +128,9 @@ bash "Install #{name}" do
     make -j5
     make install
   COMMAND
-  Chef::Log.info("COMMAND: #{cmd}")
+  block do
+    Chef::Log.info("COMMAND: #{cmd}")
+  end
   code cmd
 end
 
@@ -147,7 +155,9 @@ bash "Install #{name}" do
     make -j5
     make install
   COMMAND
-  Chef::Log.info("COMMAND: #{cmd}")
+  block do
+    Chef::Log.info("COMMAND: #{cmd}")
+  end
   code cmd
 end
 
