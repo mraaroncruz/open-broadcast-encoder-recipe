@@ -29,7 +29,7 @@ bash "Install #{name}" do
   code <<-COMMAND
     cd #{node[:obe][:git][:directory]}/#{name}
     make distclean
-    autoreconf -i && ./configure --prefix=/usr/local
+    autoreconf -i && ./configure --prefix=#{node[:obe][:prefix]}
     make -j5
     make install
   COMMAND
@@ -50,7 +50,7 @@ bash "Install #{name}" do
   code <<-COMMAND
     cd #{node[:obe][:git][:directory]}/#{name}
     make distclean
-    ./configure --prefix=/usr/local --enable-gpl --enable-nonfree --enable-libfdk-aac --disable-swscale-alpha --disable-avdevice
+    ./configure --prefix=#{node[:obe][:prefix]} --enable-gpl --enable-nonfree --enable-libfdk-aac --disable-swscale-alpha --disable-avdevice
     make -j5
     make install
   COMMAND
@@ -71,7 +71,7 @@ bash "Install #{name}" do
   code <<-COMMAND
     cd #{node[:obe][:git][:directory]}/#{name}
     make distclean
-    ./configure --prefix=/usr/local
+    ./configure --prefix=#{node[:obe][:prefix]}
     make -j5
     make install-lib-static
   COMMAND
@@ -92,7 +92,7 @@ bash "Install #{name}" do
   code <<-COMMAND
     cd #{node[:obe][:git][:directory]}/#{name}
     make distclean
-    ./configure --prefix=/usr/local
+    ./configure --prefix=#{node[:obe][:prefix]}
     make -j5
     make install
   COMMAND
@@ -113,7 +113,7 @@ bash "Install #{name}" do
   code <<-COMMAND
     cd #{node[:obe][:git][:directory]}/#{name}
     make distclean
-    ./configure --prefix=/usr/local
+    ./configure --prefix=#{node[:obe][:prefix]}
     make -j5
     make install
   COMMAND
