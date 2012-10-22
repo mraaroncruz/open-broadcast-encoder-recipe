@@ -26,9 +26,10 @@ end
   end
 end
 
+owner = 'kierank'
+
 ### FDK-AAC
 name  = 'fdk-aac'
-owner = 'kierank'
 
 git "Git #{name}" do
   not_if file_exists? "lib", "libfdk-aac.a"
@@ -55,7 +56,6 @@ end
 
 # LIBAV
 name  = 'libav-obe-dev2'
-owner = 'kierank'
 
 git "Git #{name}" do
   not_if file_exists? "lib", "libavcodec.a"
@@ -82,7 +82,6 @@ end
 #
 ## LIBX264
 name  = 'x264-obe'
-owner = 'kierank'
 
 git "Git #{name}" do
   not_if file_exists? "lib", "libx264.a"
@@ -109,7 +108,6 @@ end
 
 # LIBMPEGTS
 name  = 'libmpegts'
-owner = 'kierank'
 
 git "Git #{name}" do
   not_if file_exists? "lib", "libmpegts.a"
@@ -136,7 +134,6 @@ end
 
 # Open Broadcast Encoder
 name  = 'broadcastencoder'
-owner = 'kierank'
 
 git "Git #{name}" do
   not_if file_exists? "lib", "libobe.a"
