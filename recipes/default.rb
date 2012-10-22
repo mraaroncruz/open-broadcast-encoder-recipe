@@ -26,13 +26,15 @@ git "Git #{name}" do
 end
 
 bash "Install #{name}" do
-  code <<-COMMAND
+  cmd = <<-COMMAND
     cd #{node[:obe][:git][:directory]}/#{name}
     make distclean
-    autoreconf -i && ./configure --prefix=#{node[:obe][:prefix]}
+    autoreconf -i && LDFLAGS="-I#{node[:obe][:prefix]}/include" CFLAGS="-L#{node[:obe][:prefix]}/lib" ./configure --prefix=#{node[:obe][:prefix]}
     make -j5
     make install
   COMMAND
+  Chef::Log.info("COMMAND: #{cmd}")
+  code cmd
 end
 
 # LIBAV
@@ -47,13 +49,15 @@ git "Git #{name}" do
 end
 
 bash "Install #{name}" do
-  code <<-COMMAND
+  cmd = <<-COMMAND
     cd #{node[:obe][:git][:directory]}/#{name}
     make distclean
-    ./configure --prefix=#{node[:obe][:prefix]} --enable-gpl --enable-nonfree --enable-libfdk-aac --disable-swscale-alpha --disable-avdevice
+    LDFLAGS="-L#{node[:obe][:prefix]}/lib" CFLAGS="-I#{node[:obe][:prefix]}/include" ./configure --prefix=#{node[:obe][:prefix]} --enable-gpl --enable-nonfree --enable-libfdk-aac --disable-swscale-alpha --disable-avdevice
     make -j5
     make install
   COMMAND
+  Chef::Log.info("COMMAND: #{cmd}")
+  code cmd
 end
 #
 ## LIBX264
@@ -68,13 +72,15 @@ git "Git #{name}" do
 end
 
 bash "Install #{name}" do
-  code <<-COMMAND
+  cmd = <<-COMMAND
     cd #{node[:obe][:git][:directory]}/#{name}
     make distclean
-    ./configure --prefix=#{node[:obe][:prefix]}
+    LDFLAGS="-I#{node[:obe][:prefix]}/include" CFLAGS="-L#{node[:obe][:prefix]}/lib"./configure --prefix=#{node[:obe][:prefix]}
     make -j5
     make install-lib-static
   COMMAND
+  Chef::Log.info("COMMAND: #{cmd}")
+  code cmd
 end
 
 # LIBMPEGTS
@@ -89,13 +95,15 @@ git "Git #{name}" do
 end
 
 bash "Install #{name}" do
-  code <<-COMMAND
+  cmd = <<-COMMAND
     cd #{node[:obe][:git][:directory]}/#{name}
     make distclean
-    ./configure --prefix=#{node[:obe][:prefix]}
+    LDFLAGS="-I#{node[:obe][:prefix]}/include" CFLAGS="-L#{node[:obe][:prefix]}/lib"./configure --prefix=#{node[:obe][:prefix]}
     make -j5
     make install
   COMMAND
+  Chef::Log.info("COMMAND: #{cmd}")
+  code cmd
 end
 
 # Open Broadcast Encoder
@@ -110,11 +118,13 @@ git "Git #{name}" do
 end
 
 bash "Install #{name}" do
-  code <<-COMMAND
+  cmd = <<-COMMAND
     cd #{node[:obe][:git][:directory]}/#{name}
     make distclean
-    ./configure --prefix=#{node[:obe][:prefix]}
+    LDFLAGS="-L#{node[:obe][:prefix]}/lib" CFLAGS="-I#{node[:obe][:prefix]}/include" ./configure --prefix=#{node[:obe][:prefix]}
     make -j5
     make install
   COMMAND
+  Chef::Log.info("COMMAND: #{cmd}")
+  code cmd
 end
